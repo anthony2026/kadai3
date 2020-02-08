@@ -1,0 +1,87 @@
+<%= flash[:notice] %>
+
+
+<% if @user.errors.any? %>
+
+<h1>User info</h1>
+
+<div class="alert alert-warning">
+  <%= @user.errors.count %>errors prohibited this obj from being saved:<br>
+    <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<%= form_for(@user) do |f| %>
+ 
+    <h4>Name</h4>
+    <%= f.text_field :name %>
+
+    <h4>Image</h4>
+    <%= f.attachment_field :profile_image %>
+ 
+    <h4>Introduction</h4>
+    <%= f.text_area :introduction %>
+ 
+    <%= f.submit 'Update User' %>
+    <% end %>
+
+<% else %>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-xs-3">
+<h1>User info</h1>
+
+<%= attachment_image_tag @user, :profile_image, fallback: "no_image.jpg", size: "100x100" %>
+
+<table class="table">
+    <tr>
+      <th>name</th>
+      <td><%= @user.name %></td>
+    </tr>
+    <tr>
+      <th>introduction</th>
+      <td><%= @user.introduction %></td>
+    </tr>
+</table>
+<!-- <div class="row"> -->
+<%= link_to "" , edit_user_path(current_user), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench" %>
+<!-- </div> -->
+<h1>New book</h1>
+<%= form_for(@book) do |f| %>
+<p>Title</p>
+<%= f.text_field :title %>
+<p>Opinion</p>
+<%= f.text_area :body %>
+<%= f.submit 'Create Book', class: "btn btn-primary" %>
+<% end %>
+</div>
+<div class = "col-xs-9">
+<table class ="table">
+	<h1>Books</h1>
+  <thead>
+    <tr>
+      <th colspan="1"></th>
+      <th>Title</th>
+      <th>Opinion</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  	<% @books.each do |book| %>
+      <tr>
+      	<td><%= attachment_image_tag book.user, :profile_image,  :fill, 50, 50, fallback: "no_image.jpg", size: "50x50" %>
+        </td>
+        <td><%=link_to book.title,book_path(book) %></td>
+        <td><%= book.body %></td>
+       </tr>
+      <% end %>
+  </tbody>
+</table>
+</div>
+</div>
+　　</div>
+<% end %>
